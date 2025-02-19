@@ -64,7 +64,7 @@ dotenv.config();
     const {id} = req.params;
     let employeIndex = -1;
   
-    STUDENTS.map((employ,index)=>{
+    EMPLOYEES.map((employ,index)=>{
       if(employ.id == id){
         employeIndex = index;
       }
@@ -82,6 +82,38 @@ dotenv.config();
     success:true,
     message:"deleted succesfully"
     })
+   })
+
+   app.put("/employees/:id",(req,res)=>{
+    const {id} = req.params;
+    const {Name,salary} = req.body;
+     let employeIndex = -1;
+      
+  
+     EMPLOYEES.map((employ,index)=>{
+     if(employ.id == id){
+        employeIndex = index;
+      }
+    });
+    if(employeIndex == -1){
+      return res.json({
+        success:false,
+        message:"employee not found"
+      });
+    }
+    const employee = {
+        id, 
+     Name,
+     salary  
+    }
+  
+    EMPLOYEES[employeIndex] = employee;
+  
+     res.json({
+      suscess:true,
+      data:employee,
+      message:"added successfully"
+     });
    })
 
  app.get ('*', (req,res)=>{
