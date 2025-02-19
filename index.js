@@ -60,6 +60,30 @@ dotenv.config();
     }
  })
 
+ app.delete("/employees/:id",(req,res)=>{
+    const {id} = req.params;
+    let employeIndex = -1;
+  
+    STUDENTS.map((employ,index)=>{
+      if(employ.id == id){
+        employeIndex = index;
+      }
+    })
+  
+    if(employeIndex==-1){
+      return res.json({
+        success:false,
+        message:"user are not found"
+      });
+    }
+  
+    EMPLOYEES.splice(employeIndex,1);
+    res.json({
+    success:true,
+    message:"deleted succesfully"
+    })
+   })
+
  app.get ('*', (req,res)=>{
     res.status(404).json({
         success:false,
