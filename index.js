@@ -145,6 +145,31 @@ dotenv.config();
     });
    })
 
+   app.get("/employees/:id",(req,res)=>{
+    const {id} = req.params;
+     let employeIndex = -1;
+      
+  
+     EMPLOYEES.map((employ,index)=>{
+     if(employ.id == id){
+        employeIndex = index;
+      }
+    });
+    if(studentIndex == -1){
+      return res.json({
+        success:false,
+        message:"employee not found"
+      });
+    }
+     const employee = EMPLOYEES[studentIndex]
+  
+     res.json({
+      suscess:true,
+      data:employee,
+      message:"added successfully"
+     });
+   })
+
  app.get ('*', (req,res)=>{
     res.status(404).json({
         success:false,
