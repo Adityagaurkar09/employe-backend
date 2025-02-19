@@ -116,6 +116,35 @@ dotenv.config();
      });
    })
 
+   app.patch("/employees/salary/:id",(req,res)=>{
+    const {id} = req.params;
+    const {salary} = req.body;
+    let employeIndex = -1;
+  
+    EMPLOYEES.map((employ,index)=>{
+      if(employ.id == id){
+        employeIndex = index;
+      }
+    });
+  
+    if(employeIndex == -1){
+      return res.json({
+        suscess:false,
+        message:"employee not found"
+      });
+    }
+    const employee =EMPLOYEES[employeIndex];
+    employee.salary = salary
+  
+    EMPLOYEES[employeIndex] = employee;
+  
+    res.json({
+     suscess:true,
+     data:employee,
+     message:"salary update susccessfully"
+    });
+   })
+
  app.get ('*', (req,res)=>{
     res.status(404).json({
         success:false,
