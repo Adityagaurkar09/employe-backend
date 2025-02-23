@@ -29,19 +29,19 @@ dotenv.config();
  })
 
  app.post('/employees',(req,res)=>{
-    const {name, age, salary}= req.params;
-
-    if(!id){
-        return res.status(400).json({
-            success:false,
-            message:"id is required"
-        })
-    }
+    const {id,name, age, salary}= req.params;
 
     if(!name){
         return res.status(400).json({
             success:false,
             message:"name is required"
+        })
+    }
+
+    if(!id){
+        return res.status(400).json({
+            success:false,
+            message:"id is required"
         })
     }
 
@@ -58,7 +58,34 @@ dotenv.config();
             message:"salary is required"
         })
     }
- })
+    const employeeId = EMPLOYEES.find((employ)=>{
+      if(employ.id == id){
+        return employ;
+        }
+     })
+     if(employeeId){
+      return res.json({
+        success:false,
+        message:"employee is already exits"  
+      })
+     }
+    
+     const employee={
+      id,
+      name,
+      age,
+      salary
+    }
+
+    EMPLOYEES.push(employee);
+    
+      res.json({
+        suscess:true,
+        data:employee,
+        message:"employee is added"
+      })
+     })
+     
 
  app.delete("/employees/:id",(req,res)=>{
     const {id} = req.params;
@@ -155,13 +182,13 @@ dotenv.config();
         employeIndex = index;
       }
     });
-    if(studentIndex == -1){
+    if(employeIndex == -1){
       return res.json({
         success:false,
         message:"employee not found"
       });
     }
-     const employee = EMPLOYEES[studentIndex]
+     const employee = EMPLOYEES[employeIndex]
   
      res.json({
       suscess:true,
@@ -181,4 +208,4 @@ dotenv.config();
 
   app.listen(PORT,()=>{
     console.log(`aerver is running on ${PORT}`)
-  })
+  });
